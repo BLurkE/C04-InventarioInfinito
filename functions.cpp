@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 using namespace std;
 
 struct Item {
@@ -99,7 +102,7 @@ void mostraItens(Lista *lista)
             cout << atual->item.nome << endl;
             cout << atual->item.dono << endl;
             cout << atual->item.categoria << endl;
-            cout << atual->item.apego_emocional << endl;
+            cout << atual->item.apego_emocional << endl << endl;
 
             atual = atual->proximo;
         }
@@ -155,14 +158,14 @@ Lista ordenarItens_Apego(Lista* lista) {
         copia->proximo = NULL;
 
         if (novaListaOrdenada.primeiro == NULL || 
-            copia->item.apego_emocional < novaListaOrdenada.primeiro->item.apego_emocional) {
+            copia->item.apego_emocional > novaListaOrdenada.primeiro->item.apego_emocional) {
             
             copia->proximo = novaListaOrdenada.primeiro;
             novaListaOrdenada.primeiro = copia;
         } else {
             No* pos = novaListaOrdenada.primeiro;
             while (pos->proximo != NULL && 
-                   pos->proximo->item.apego_emocional < copia->item.apego_emocional) {
+                   pos->proximo->item.apego_emocional > copia->item.apego_emocional) {
                 pos = pos->proximo;
             }
             copia->proximo = pos->proximo;
@@ -172,5 +175,55 @@ Lista ordenarItens_Apego(Lista* lista) {
         atual = atual->proximo;
     }
 
+    novaListaOrdenada.totalItens = lista->totalItens;
+
     return novaListaOrdenada;
+}
+
+int toInt(const std::string &s) {
+    int x;
+    std::stringstream ss(s);
+    ss >> x;
+    return x;
+}
+
+void carregarItensDeArquivo(Lista *lista, const string &nomeArquivo) {
+    ifstream arquivo(nomeArquivo.c_str());
+
+    if (!arquivo.is_open()) {
+        cout << "Erro ao abrir o arquivo " << nomeArquivo << endl;
+        return;
+    }
+
+    string linha;
+    while (getline(arquivo, linha)) {
+        stringstream ss(linha);
+        string campo;
+        Item novoItem;
+
+        // id
+        getline(ss, campo, ',');
+        novoItem.id = toInt(campo);
+
+        // nome
+        getline(ss, campo, ',');
+        novoItem.nome = campo;
+
+        // dono
+        getline(ss, campo, ',');
+        novoItem.dono = campo;
+
+        // categoria
+        getline(ss, campo, ',');
+        novoItem.categoria = campo;
+
+        // apego_emocional
+        getline(ss, campo, ',');
+        novoItem.apego_emocional = toInt(campo);
+
+        append(lista, novoItem);
+    }
+
+    arquivo.close();
+    cout << "Itens carregados com sucesso do arquivo!" << endl;
 }

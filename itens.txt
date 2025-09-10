@@ -1,0 +1,15 @@
+0,Escova,Pedro,Higiene,30
+1,Shampoo,Maria,Higiene,75
+2,Jaqueta,Carla,Roupas,15
+3,Camiseta,Lucas,Roupas,50
+4,Relogio,Ana,Acessorios,60
+5,Oculos,Felipe,Acessorios,25
+6,Celular,Pedro,ProdutosEletronicos,90
+7,Fone,Joao,ProdutosEletronicos,45
+8,Remedio,Mariana,Saude,80
+9,Curativo,Sofia,Saude,35
+10,Perfume,Joana,Higiene,70
+11,Sapato,Bruno,Roupas,55
+12,Colar,Laura,Acessorios,65
+13,Notebook,Caio,ProdutosEletronicos,95
+14,Vitaminas,Paula,Saude,40

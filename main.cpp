@@ -94,12 +94,13 @@ void listarItensAlfabeticaNome(Lista* lista)
   mostraItens(&listaOrdenada);
 }
 
-void listarItensDecrescenteApego()
+void listarItensDecrescenteApego(Lista* lista)
 {
-  cout << "Funcionalidade em construcao" << endl;
+  Lista listaOrdenada = ordenarItens_Apego(lista);
+  mostraItens(&listaOrdenada);
 }
 
-void contarItensComMesmoApego()
+void contarItensComMesmaCategoria()
 {
   cout << "Funcionalidade em construcao" << endl;
 }
@@ -141,13 +142,16 @@ int main()
       listarItensAlfabeticaNome(&listaDeItens);
       break;
     case 6:
-      listarItensDecrescenteApego();
+      listarItensDecrescenteApego(&listaDeItens);
       break;
     case 7:
-      contarItensComMesmoApego();
+      contarItensComMesmaCategoria();
       break;
     case 8:
       removerMenosApegados();
+      break;
+    case 9:
+      carregarItensDeArquivo(&listaDeItens, "itens.txt");
       break;
     case 0:
       cout << "Ate a proxima!!" << endl;
