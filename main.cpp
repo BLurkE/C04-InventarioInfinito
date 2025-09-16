@@ -4,73 +4,30 @@ using namespace std;
 
 void inserirItem(Lista *lista)
 {
-  Item novoItem;
-  novoItem.id = 0;
-  novoItem.categoria = "Higiene";
-  novoItem.apego_emocional = 30;
-  novoItem.dono = "Pedro";
-  novoItem.nome = "Escova";
-  append(lista, novoItem);
-  novoItem.id = 1;
-  novoItem.categoria = "Higiene";
-  novoItem.apego_emocional = 75;
-  novoItem.dono = "Maria";
-  novoItem.nome = "Shampoo";
-  append(lista, novoItem);
-  novoItem.id = 2;
-  novoItem.categoria = "Cozinha";
-  novoItem.apego_emocional = 20;
-  novoItem.dono = "Joao";
-  novoItem.nome = "Panela";
-  append(lista, novoItem);
-  novoItem.id = 3;
-  novoItem.categoria = "Eletronicos";
-  novoItem.apego_emocional = 90;
-  novoItem.dono = "Pedro";
-  novoItem.nome = "Celular";
-  append(lista, novoItem);
-  novoItem.id = 4;
-  novoItem.categoria = "Roupas";
-  novoItem.apego_emocional = 15;
-  novoItem.dono = "Carla";
-  novoItem.nome = "Jaqueta";
-  append(lista, novoItem);
-  novoItem.id = 5;
-  novoItem.categoria = "Livros";
-  novoItem.apego_emocional = 100;
-  novoItem.dono = "Lucas";
-  novoItem.nome = "Diario";
-  append(lista, novoItem);
-  novoItem.id = 6;
-  novoItem.categoria = "Moveis";
-  novoItem.apego_emocional = 40;
-  novoItem.dono = "Ana";
-  novoItem.nome = "Cadeira";
-  append(lista, novoItem);
-  novoItem.id = 7;
-  novoItem.categoria = "Decoracao";
-  novoItem.apego_emocional = 65;
-  novoItem.dono = "Felipe";
-  novoItem.nome = "Quadro";
-  append(lista, novoItem);
-  novoItem.id = 8;
-  novoItem.categoria = "Esporte";
-  novoItem.apego_emocional = 55;
-  novoItem.dono = "Bruno";
-  novoItem.nome = "Bola de futebol";
-  append(lista, novoItem);
-  novoItem.id = 9;
-  novoItem.categoria = "Instrumentos";
-  novoItem.apego_emocional = 85;
-  novoItem.dono = "Mariana";
-  novoItem.nome = "Violao";
-  append(lista, novoItem);
-  novoItem.id = 10;
-  novoItem.categoria = "Brinquedos";
-  novoItem.apego_emocional = 10;
-  novoItem.dono = "Sofia";
-  novoItem.nome = "Boneca";
-  append(lista, novoItem);
+    Item novoItem;
+
+    cout << "\nCadastro de Novo Item \n";
+
+    novoItem.id = lista->totalItens + 1;
+    cout << "ID atribuido automaticamente: " << novoItem.id << endl;
+
+     cin.ignore(); // limpar buffer caso tenha lixo do último cin
+
+    cout << "Item: ";
+    getline(cin, novoItem.nome);
+
+    cout << "Dono: ";
+    getline(cin, novoItem.dono);
+
+    cout << "Categoria: ";
+    getline(cin, novoItem.categoria);
+
+    cout << "Apego emocional (numero inteiro): ";
+    cin >> novoItem.apego_emocional;
+
+    append(lista, novoItem);
+
+    cout << "\nItem cadastrado com sucesso!\n" << endl;
 }
 
 void cadastrarSimilaridade()
@@ -120,6 +77,18 @@ int main()
   /* Menu */
   while (opMenu != 0)
   {
+
+    
+      cout << "1 - iserir intens" << endl;
+      cout << "2 - Cadatrs sililaridade " <<  endl;
+      cout << "3 - Verificar existencia do item" <<  endl;
+      cout << "4 - Listar os itens" <<  endl;
+      cout << "5 - Listar os itens em ordem alfabetica" <<  endl;
+      cout << "6 - Listar itens apego emocional" <<  endl;
+      cout << "7 - Quantidade de itens da mesma categoria" <<  endl;
+      cout << "8 - Remover itens com menos apego" <<  endl;
+      cout << "9 - Carregar lista de itens" <<  endl;
+      cout << "0 - Sair" <<  endl;
 
     cin >> opMenu;
 

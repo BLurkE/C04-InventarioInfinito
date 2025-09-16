@@ -40,7 +40,7 @@ void append(Lista *lista, Item novoItem)
     {
         lista->primeiro = novoNo;
     }
-    else
+    
     {
         No *atual = lista->primeiro;
         while (atual->proximo != NULL)
@@ -226,4 +226,30 @@ void carregarItensDeArquivo(Lista *lista, const string &nomeArquivo) {
 
     arquivo.close();
     cout << "Itens carregados com sucesso do arquivo!" << endl;
+}
+
+void salvarItensEmArquivo(Lista *lista, const string &nomeArquivo) {
+
+    ofstream arquivo(nomeArquivo.c_str());
+
+    if (!arquivo.is_open()) {
+        cout << "Erro ao abrir o arquivo " << nomeArquivo << " para escrita." << endl;
+        return;
+    }
+
+    No *atual = lista->primeiro;
+
+    while (atual != NULL) {
+        arquivo << atual->item.id << ","
+                << atual->item.nome << ","
+                << atual->item.dono << ","
+                << atual->item.categoria << ","
+                << atual->item.apego_emocional
+                << endl;
+
+        atual = atual->proximo;
+    }
+
+    arquivo.close();
+    cout << "Itens salvos com sucesso no arquivo!" << endl;
 }
