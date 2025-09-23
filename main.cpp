@@ -8,7 +8,7 @@ void inserirItem(Lista *lista)
 
     cout << "\nCadastro de Novo Item \n";
 
-    novoItem.id = lista->totalItens + 1;
+    novoItem.id = lista->totalItens;
     cout << "ID atribuido automaticamente: " << novoItem.id << endl;
 
      cin.ignore(); // limpar buffer caso tenha lixo do último cin
@@ -79,8 +79,8 @@ int main()
   {
 
     
-      cout << "1 - iserir intens" << endl;
-      cout << "2 - Cadatrs sililaridade " <<  endl;
+      cout << endl << "1 - Inserir itens" << endl;
+      cout << "2 - Cadatrar similaridade " <<  endl;
       cout << "3 - Verificar existencia do item" <<  endl;
       cout << "4 - Listar os itens" <<  endl;
       cout << "5 - Listar os itens em ordem alfabetica" <<  endl;
@@ -88,7 +88,7 @@ int main()
       cout << "7 - Quantidade de itens da mesma categoria" <<  endl;
       cout << "8 - Remover itens com menos apego" <<  endl;
       cout << "9 - Carregar lista de itens" <<  endl;
-      cout << "0 - Sair" <<  endl;
+      cout << "0 - Sair" <<  endl << endl;
 
     cin >> opMenu;
 
@@ -123,10 +123,10 @@ int main()
       carregarItensDeArquivo(&listaDeItens, "itens.txt");
       break;
     case 0:
-      cout << "Ate a proxima!!" << endl;
+      cout << endl << "Ate a proxima!!" << endl;
       break;
     default:
-      cout << "Caso de excecao. Selecione uma opcao valida." << endl;
+      cout << endl << "Caso de excecao. Selecione uma opcao valida." << endl;
       break;
     }
   }

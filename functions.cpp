@@ -35,12 +35,13 @@ void append(Lista *lista, Item novoItem)
 {
     No *novoNo = new No;
     novoNo->item = novoItem;
+    novoNo->proximo = NULL;
 
     if (listaVazia(lista))
     {
         lista->primeiro = novoNo;
     }
-    
+    else
     {
         No *atual = lista->primeiro;
         while (atual->proximo != NULL)
@@ -180,9 +181,9 @@ Lista ordenarItens_Apego(Lista* lista) {
     return novaListaOrdenada;
 }
 
-int toInt(const std::string &s) {
+int toInt(const string &s) {
     int x;
-    std::stringstream ss(s);
+    stringstream ss(s);
     ss >> x;
     return x;
 }
@@ -225,7 +226,7 @@ void carregarItensDeArquivo(Lista *lista, const string &nomeArquivo) {
     }
 
     arquivo.close();
-    cout << "Itens carregados com sucesso do arquivo!" << endl;
+    cout << endl << "Itens carregados com sucesso do arquivo!" << endl;
 }
 
 void salvarItensEmArquivo(Lista *lista, const string &nomeArquivo) {
