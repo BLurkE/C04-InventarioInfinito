@@ -4,30 +4,7 @@ using namespace std;
 
 void inserirItem(Lista *lista)
 {
-    Item novoItem;
-
-    cout << "\nCadastro de Novo Item \n";
-
-    novoItem.id = lista->totalItens;
-    cout << "ID atribuido automaticamente: " << novoItem.id << endl;
-
-     cin.ignore(); // limpar buffer caso tenha lixo do último cin
-
-    cout << "Item: ";
-    getline(cin, novoItem.nome);
-
-    cout << "Dono: ";
-    getline(cin, novoItem.dono);
-
-    cout << "Categoria: ";
-    getline(cin, novoItem.categoria);
-
-    cout << "Apego emocional (numero inteiro): ";
-    cin >> novoItem.apego_emocional;
-
-    append(lista, novoItem);
-
-    cout << "\nItem cadastrado com sucesso!\n" << endl;
+  insert(lista);
 }
 
 void cadastrarSimilaridade()
@@ -45,7 +22,7 @@ void listarItens(Lista *lista)
   mostraItens(lista);
 }
 
-void listarItensAlfabeticaNome(Lista* lista)
+void   listarItensAlfabeticaNome(Lista* lista)
 {
   Lista listaOrdenada = ordenarItens_Nome(lista);
   mostraItens(&listaOrdenada);

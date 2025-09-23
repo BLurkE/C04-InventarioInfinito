@@ -254,3 +254,42 @@ void salvarItensEmArquivo(Lista *lista, const string &nomeArquivo) {
     arquivo.close();
     cout << "Itens salvos com sucesso no arquivo!" << endl;
 }
+
+void insert(Lista *lista)
+{
+    Item novoItem;
+    int aux;
+
+    cout << "Cadastro de Novo Item" << endl;
+
+    novoItem.id = lista->totalItens;
+    cout << "ID atribuido automaticamente: " << novoItem.id << endl;
+
+    cin.ignore(); // limpar buffer
+
+    cout << "Item: ";
+    getline(cin, novoItem.nome);
+
+    cout << "Dono: ";
+    getline(cin, novoItem.dono);
+
+    cout << "Categoria: ";
+    getline(cin, novoItem.categoria);
+
+    // Validação do campo apego_emocional
+    do {
+        cout << "Apego emocional (numero inteiro entre 0 e 100): ";
+        cin >> aux;
+
+        if (aux < 0 || aux > 100) {
+            cout << "⚠️ Valor inválido! Digite um número entre 0 e 100." << endl;
+        }
+
+    } while (aux < 0 || aux > 100);
+
+    novoItem.apego_emocional = aux;
+
+    append(lista, novoItem);
+
+    cout << "✅ Item cadastrado com sucesso!" << endl;
+}
