@@ -2,183 +2,85 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <list>
+#include <cmath>
+
 using namespace std;
-
 struct Item {
-  int id;
-  string nome;
-  string dono;
-  string categoria;
-  int apego_emocional;
+    int id;
+    string nome;
+    string dono;
+    string categoria;
+    int apego_emocional;
 };
 
-struct No
-{
-    Item item;
-    No *proximo;
-    No() : proximo(NULL) {}
+struct Similaridade {
+    Item item1;
+    Item item2;
+    float similaridade;
 };
 
-struct Lista
-{
-    No *primeiro;
-    int totalItens;
-    Lista() : primeiro(NULL), totalItens(0) {}
-};
+// ------------------------- Funções auxiliares -------------------------
 
-bool listaVazia(Lista *lista)
-{
-    return lista->primeiro == NULL;
+bool listaVazia(const list<Item> &lista) {
+    return lista.empty();
 }
 
-void append(Lista *lista, Item novoItem)
-{
-    No *novoNo = new No;
-    novoNo->item = novoItem;
-    novoNo->proximo = NULL;
+void append(list<Item> &lista, const Item &novoItem) {
+    lista.push_back(novoItem);
+}
 
-    if (listaVazia(lista))
-    {
-        lista->primeiro = novoNo;
-    }
-    else
-    {
-        No *atual = lista->primeiro;
-        while (atual->proximo != NULL)
-        {
-            atual = atual->proximo;
+bool pop(list<Item> &lista, const string &nome) {
+    
+    list<Item>::iterator it;
+    for (it = lista.begin(); it != lista.end(); ++it) {
+        if (it->nome == nome) {
+            lista.erase(it);
+            cout << "Elemento removido: " << nome << endl;
+            return true;
         }
-        atual->proximo = novoNo;
     }
-    lista->totalItens += 1;
+    cout << "Elemento nao encontrado." << endl;
+    return false;
 }
 
-bool pop(Lista *lista, string nome)
-{
-    if (listaVazia(lista))
-    {
-        cout << "Lista vazia." << endl;
-        return false;
-    }
-
-    No *atual = lista->primeiro;
-    No *anterior = NULL;
-
-    while (atual != NULL && atual->item.nome != nome)
-    {
-        anterior = atual;
-        atual = atual->proximo;
-    }
-
-    if (atual == NULL)
-    {
-        cout << "Elemento nao encontrado." << endl;
-        return false;
-    }
-
-    if (anterior == NULL)
-    {
-        lista->primeiro = atual->proximo;
-    }
-    else
-    {
-        anterior->proximo = atual->proximo;
-    }
-
-    delete atual;
-    lista->totalItens -= 1;
-    cout << "Elemento removido: " << nome << endl;
-    return true;
-}
-
-void mostraItens(Lista *lista)
-{
-    if (lista->totalItens >= 1)
-    {
-        No *atual = lista->primeiro;
-        cout << "\nItens disponiveis:\n";
-        while (atual != NULL)
-        {
-            cout << atual->item.id << endl;
-            cout << atual->item.nome << endl;
-            cout << atual->item.dono << endl;
-            cout << atual->item.categoria << endl;
-            cout << atual->item.apego_emocional << endl << endl;
-
-            atual = atual->proximo;
-        }
-        cout << endl;
-    }
-
-    else{
+void mostraItens(const list<Item> &lista) {
+    if (lista.empty()) {
         cout << "\nAinda nao existem itens cadastrados.\n" << endl;
+        return;
     }
+
+    cout << "\nItens disponiveis:\n";
+    for (list<Item>::const_iterator it = lista.begin(); it != lista.end(); ++it) {
+        const Item &item = *it;
+        cout << item.id << endl;
+        cout << item.nome << endl;
+        cout << item.dono << endl;
+        cout << item.categoria << endl;
+        cout << item.apego_emocional << endl << endl;
+    }
+
+    cout << endl;
 }
 
-Lista ordenarItens_Nome(Lista* lista) {
-    Lista novaListaOrdenada;
-
-    No* atual = lista->primeiro;
-
-    while (atual != NULL) {
-        No* copia = new No;
-        copia->item = atual->item;
-        copia->proximo = NULL;
-
-        if (novaListaOrdenada.primeiro == NULL || 
-            copia->item.nome < novaListaOrdenada.primeiro->item.nome) {
-            
-            copia->proximo = novaListaOrdenada.primeiro;
-            novaListaOrdenada.primeiro = copia;
-        } else {
-            No* pos = novaListaOrdenada.primeiro;
-            while (pos->proximo != NULL && 
-                   pos->proximo->item.nome < copia->item.nome) {
-                pos = pos->proximo;
-            }
-            copia->proximo = pos->proximo;
-            pos->proximo = copia;
-        }
-
-        atual = atual->proximo;
-    }
-
-    novaListaOrdenada.totalItens = lista->totalItens;
-
-    return novaListaOrdenada;
+bool compararPorNome(const Item &a, const Item &b) {
+    return a.nome < b.nome;
 }
 
-Lista ordenarItens_Apego(Lista* lista) {
-    Lista novaListaOrdenada;
+bool compararPorApego(const Item &a, const Item &b) {
+    return a.apego_emocional > b.apego_emocional;
+}
 
-    No* atual = lista->primeiro;
+list<Item> ordenarItens_Nome(const list<Item> &lista) {
+    list<Item> ordenada = lista;
+    ordenada.sort(compararPorNome);
+    return ordenada;
+}
 
-    while (atual != NULL) {
-        No* copia = new No;
-        copia->item = atual->item;
-        copia->proximo = NULL;
-
-        if (novaListaOrdenada.primeiro == NULL || 
-            copia->item.apego_emocional > novaListaOrdenada.primeiro->item.apego_emocional) {
-            
-            copia->proximo = novaListaOrdenada.primeiro;
-            novaListaOrdenada.primeiro = copia;
-        } else {
-            No* pos = novaListaOrdenada.primeiro;
-            while (pos->proximo != NULL && 
-                   pos->proximo->item.apego_emocional > copia->item.apego_emocional) {
-                pos = pos->proximo;
-            }
-            copia->proximo = pos->proximo;
-            pos->proximo = copia;
-        }
-
-        atual = atual->proximo;
-    }
-
-    novaListaOrdenada.totalItens = lista->totalItens;
-
-    return novaListaOrdenada;
+list<Item> ordenarItens_Apego(const list<Item> &lista) {
+    list<Item> ordenada = lista;
+    ordenada.sort(compararPorApego);
+    return ordenada;
 }
 
 int toInt(const string &s) {
@@ -188,7 +90,7 @@ int toInt(const string &s) {
     return x;
 }
 
-void carregarItensDeArquivo(Lista *lista, const string &nomeArquivo) {
+void carregarItensDeArquivo(list<Item> &lista, const string &nomeArquivo) {
     ifstream arquivo(nomeArquivo.c_str());
 
     if (!arquivo.is_open()) {
@@ -202,23 +104,18 @@ void carregarItensDeArquivo(Lista *lista, const string &nomeArquivo) {
         string campo;
         Item novoItem;
 
-        // id
         getline(ss, campo, ',');
         novoItem.id = toInt(campo);
 
-        // nome
         getline(ss, campo, ',');
         novoItem.nome = campo;
 
-        // dono
         getline(ss, campo, ',');
         novoItem.dono = campo;
 
-        // categoria
         getline(ss, campo, ',');
         novoItem.categoria = campo;
 
-        // apego_emocional
         getline(ss, campo, ',');
         novoItem.apego_emocional = toInt(campo);
 
@@ -229,8 +126,7 @@ void carregarItensDeArquivo(Lista *lista, const string &nomeArquivo) {
     cout << endl << "Itens carregados com sucesso do arquivo!" << endl;
 }
 
-void salvarItensEmArquivo(Lista *lista, const string &nomeArquivo) {
-
+void salvarItensEmArquivo(const list<Item> &lista, const string &nomeArquivo) {
     ofstream arquivo(nomeArquivo.c_str());
 
     if (!arquivo.is_open()) {
@@ -238,58 +134,51 @@ void salvarItensEmArquivo(Lista *lista, const string &nomeArquivo) {
         return;
     }
 
-    No *atual = lista->primeiro;
-
-    while (atual != NULL) {
-        arquivo << atual->item.id << ","
-                << atual->item.nome << ","
-                << atual->item.dono << ","
-                << atual->item.categoria << ","
-                << atual->item.apego_emocional
-                << endl;
-
-        atual = atual->proximo;
+    for (list<Item>::const_iterator it = lista.begin(); it != lista.end(); ++it) {
+        const Item &item = *it;
+        arquivo << item.id << ","
+                << item.nome << ","
+                << item.dono << ","
+                << item.categoria << ","
+                << item.apego_emocional << endl;
     }
 
     arquivo.close();
     cout << "Itens salvos com sucesso no arquivo!" << endl;
 }
 
-void insert(Lista *lista)
-{
+void insert(list<Item> &lista) {
     Item novoItem;
     int aux;
 
     cout << "Cadastro de Novo Item" << endl;
-
-    novoItem.id = lista->totalItens;
+    novoItem.id = lista.size();
     cout << "ID atribuido automaticamente: " << novoItem.id << endl;
 
-    cin.ignore(); // limpar buffer
+    std::cin.ignore();
 
     cout << "Item: ";
-    getline(cin, novoItem.nome);
+    std::getline(std::cin, novoItem.nome);
 
     cout << "Dono: ";
-    getline(cin, novoItem.dono);
+    std::getline(std::cin, novoItem.dono);
 
     cout << "Categoria: ";
-    getline(cin, novoItem.categoria);
+    std::getline(std::cin, novoItem.categoria);
 
-    // Validação do campo apego_emocional
     do {
         cout << "Apego emocional (numero inteiro entre 0 e 100): ";
-        cin >> aux;
-
-        if (aux < 0 || aux > 100) {
+        std::cin >> aux;
+        if (aux < 0 || aux > 100)
             cout << "⚠️ Valor inválido! Digite um número entre 0 e 100." << endl;
-        }
-
     } while (aux < 0 || aux > 100);
 
     novoItem.apego_emocional = aux;
-
     append(lista, novoItem);
 
     cout << "✅ Item cadastrado com sucesso!" << endl;
+}
+
+double calcularProximidadeApegoEmocional(double a, double b) {
+    return (1 - fabs(a - b) / 100.0) * 33.0;
 }
