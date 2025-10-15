@@ -30,5 +30,6 @@ void carregarItensDeArquivo(std::list<Item> &lista, const std::string &nomeArqui
 void salvarItensEmArquivo(const std::list<Item> &lista, const std::string &nomeArquivo);
 void insert(std::list<Item> &lista);
 double calcularProximidadeApegoEmocional(double a, double b);
+std::list<Item> buscaItensPorIds(const std::list<Item> &lista, int ids[], int num_ids);
 
 #endif
