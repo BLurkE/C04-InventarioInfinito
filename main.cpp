@@ -16,7 +16,9 @@ void cadastrarSimilaridade(list<Item> &listaItens, list<Similaridade> &listaSimi
   int ids[2];
   cin >> ids[0] >> ids[1];
 
-  cout << "Funcionalidade de similaridade ainda em desenvolvimento.\n";
+  list<Item> itens = buscaItensPorIds(listaItens, ids, 2);
+
+  mostraItens(itens);
 }
 
 void verificarExistenciaItem()

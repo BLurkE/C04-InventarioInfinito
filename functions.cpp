@@ -71,6 +71,44 @@ bool compararPorApego(const Item &a, const Item &b) {
     return a.apego_emocional > b.apego_emocional;
 }
 
+list<Item> buscaItensPorIds(const list<Item> &lista, int ids[], int num_ids){
+
+    list<Item> itens;
+
+    int count_items_found = 0, aux = 0;
+    bool items_found = false;
+
+    while (!items_found && count_items_found != num_ids)
+    {
+        for (list<Item>::const_iterator it = lista.begin(); it != lista.end(); ++it)
+        {
+            const Item &item = *it;
+            if (item.id == ids[count_items_found]){
+                itens.push_back(item);
+                count_items_found++;
+                if(count_items_found == num_ids){
+                    items_found = true;
+                }
+                break;
+            }
+            aux++;
+        }
+
+        if(aux >= 100){
+            break;
+        }
+    }
+
+    if (items_found){
+        cout << "Itens encontrados!" << endl;
+    }
+    else{
+        cout << "Itens não encontrados!" << endl;
+    }
+
+    return itens;
+}
+
 list<Item> ordenarItens_Nome(const list<Item> &lista) {
     list<Item> ordenada = lista;
     ordenada.sort(compararPorNome);
