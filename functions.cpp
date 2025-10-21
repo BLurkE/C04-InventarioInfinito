@@ -220,3 +220,20 @@ void insert(list<Item> &lista) {
 double calcularProximidadeApegoEmocional(double a, double b) {
     return (1 - fabs(a - b) / 100.0) * 33.0;
 }
+
+void removerApegoEmocional(list<Item> &lista)
+{
+    int minimo;
+    cin >> minimo;
+    for(auto it = lista.begin(); it != lista.end();)
+    {
+        if(it->apego_emocional < minimo)
+        {
+            it = lista.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+}
